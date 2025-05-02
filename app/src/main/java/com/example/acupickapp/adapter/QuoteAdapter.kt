@@ -28,5 +28,5 @@ class QuoteAdapter(
         }
     }
 
-    override fun getItemCount(): Int = quotes.size
+    override fun getItemCount(): Int = 5
 }

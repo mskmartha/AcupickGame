@@ -17,7 +17,6 @@ class Step2Activity : AppCompatActivity() {
     private lateinit var binding: ActivityStep2Binding
     private lateinit var networkMonitor: NetworkMonitor
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

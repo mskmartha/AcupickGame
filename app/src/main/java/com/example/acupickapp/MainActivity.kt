@@ -9,6 +9,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.acupickapp.Model.Example
+import com.example.acupickapp.Model.Rule
+import com.example.acupickapp.Model.Score
+import com.example.acupickapp.Model.UserData
 import com.example.acupickapp.adapter.QuoteAdapter
 import com.example.acupickapp.apis.NetworkMonitor
 import com.example.acupickapp.apis.QuotesApi
@@ -22,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var networkMonitor: NetworkMonitor
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -33,6 +38,18 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
+        var score1 = Score(0, 2, 5)
+        var score2 = Score(2, 5, 3)
+        var score3 = Score(5, 6, 0)
+        var scoreList: List<Score> = listOf(score1, score2, score3)
+        var rule1 =
+            Rule("R2", "Auth_Code_Exists", "eventReasonCode ==='CODE_VERIFIED'", listOf<Score>(), 0)
+        var rule2 = Rule("R4", "Complete_Order", "isCompleteOrder ==='true'", scoreList, 0)
+
+        var listtt: List<Rule> = listOf(rule2, rule1)
+        var userData = UserData("14", "4174", "100.0", "2345", listtt, "6", "6")
+        var example = Example("1883", "smar602", userData)
 
 
         networkMonitor = NetworkMonitor(this)
@@ -55,8 +72,12 @@ class MainActivity : AppCompatActivity() {
                                 intent.putExtra("body", quote.body)
                                 startActivity(intent)
                             }
-
                             binding.rvList.adapter = adapter
+
+
+
+
+
                         } else {
                             Log.e("QuotesAPI", "Error: ${response.code()} - ${response.message()}")
                         }
@@ -68,7 +89,5 @@ class MainActivity : AppCompatActivity() {
                 binding.tvInternetStatus.text = "Offline"
             }
         }
-
-
     }
 }
