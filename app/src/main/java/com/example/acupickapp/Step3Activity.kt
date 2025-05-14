@@ -42,7 +42,13 @@ class Step3Activity : AppCompatActivity() {
 
         binding.btnVerifyCode.setOnClickListener {
 
-            Toast.makeText(this, "clikkkkk4", Toast.LENGTH_SHORT).show()
+            HandOffManager.checkCodeVerified(true)
+            startActivity(Intent(this@Step3Activity, Step4Activity::class.java))
+
+
+        }
+
+        binding.btnSkipCode.setOnClickListener {
             startActivity(Intent(this@Step3Activity, Step4Activity::class.java))
 
         }

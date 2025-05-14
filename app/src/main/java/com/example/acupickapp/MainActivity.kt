@@ -15,12 +15,15 @@ import com.example.acupickapp.Model.Score
 import com.example.acupickapp.Model.UserData
 import com.example.acupickapp.adapter.QuoteAdapter
 import com.example.acupickapp.apis.NetworkMonitor
-import com.example.acupickapp.apis.QuotesApi
+import com.example.acupickapp.apis.Api
 import com.example.acupickapp.apis.RetrofitHelper
-import com.example.acupickapp.apis.isInternetAvailable
 import com.example.acupickapp.databinding.ActivityMainBinding
-import kotlinx.coroutines.GlobalScope
+import com.google.gson.Gson
+import com.google.gson.stream.JsonReader
+import com.handofftracker.HandOffManager
+import com.handofftracker.models.ApiResponse
 import kotlinx.coroutines.launch
+import java.io.StringReader
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -57,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         networkMonitor.observe(this) { isConnected ->
             if (isConnected) {
                 binding.tvInternetStatus.text = "Online"
-                val quotesApi = RetrofitHelper.getInstance().create(QuotesApi::class.java)
+                val quotesApi = RetrofitHelper.getInstance(RetrofitHelper.baseUrl).create(Api::class.java)
 
                 binding.rvList.layoutManager = LinearLayoutManager(this)
 
@@ -75,9 +78,6 @@ class MainActivity : AppCompatActivity() {
                             binding.rvList.adapter = adapter
 
 
-
-
-
                         } else {
                             Log.e("QuotesAPI", "Error: ${response.code()} - ${response.message()}")
                         }
@@ -85,6 +85,34 @@ class MainActivity : AppCompatActivity() {
                         Log.e("QuotesAPI", "Exception: ${e.message}")
                     }
                 }
+
+                HandOffManager.getStoreUserdata(this@MainActivity,"1883","smar602")
+
+//                val userApi =
+//                    RetrofitHelper.getInstance(RetrofitHelper.baseUrl1).create(
+//                        Api::class.java)
+//
+//                lifecycleScope.launch {
+//                    try {
+//                        val response = userApi.getData()
+//                        if (response.isSuccessful && response.body() != null) {
+//                            val data: ApiResponse = response.body()!!
+//
+//                            val datas = Gson().fromJson<ApiResponse>(data.toString(), ApiResponse::class.java)
+//
+//                            Log.i("HandOffManager", "API Success: $datas")
+//                        } else {
+//                            Log.e(
+//                                "HandOffManager",
+//                                "API Error: ${response.code()} - ${response.errorBody()}"
+//                            )
+//                        }
+//                    } catch (e: Exception) {
+//                        Log.e("HandOffManager", "API Exception: ${e.message}")
+//                    }
+//                }
+
+
             } else {
                 binding.tvInternetStatus.text = "Offline"
             }
